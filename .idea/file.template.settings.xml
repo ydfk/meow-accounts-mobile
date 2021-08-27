@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExportableFileTemplateSettings">
+    <internal_templates>
+      <template name="Less File.less" reformat="true" live-template-enabled="true" enabled="true" />
+      <template name="Sass File.sass" reformat="true" live-template-enabled="true" enabled="true" />
+      <template name="SCSS File.scss" reformat="true" live-template-enabled="true" enabled="true" />
+    </internal_templates>
+    <default_templates>
+      <template name="Vue 3 TypeScript.ts" reformat="true" live-template-enabled="true" />
+      <template name="Vue 3 TypeScript TSX.tsx" reformat="true" live-template-enabled="true" />
+    </default_templates>
+  </component>
+</project>
