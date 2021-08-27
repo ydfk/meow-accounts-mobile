@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-26 21:51:41
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-26 23:07:28
+ * @LastEditTime: 2021-08-27 22:15:30
  */
 
 import { Result, RequestOptions } from "#/axios";
@@ -146,7 +146,7 @@ const transform: AxiosTransform = {
         return Promise.reject(error);
       }
     } catch (error) {
-      throw new Error(error);
+      throw new Error(error as string);
     }
 
     checkStatus(error?.response?.status, msg);

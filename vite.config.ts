@@ -3,12 +3,14 @@
  * @Author: ydfk
  * @Date: 2021-08-24 17:24:45
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-27 12:14:36
+ * @LastEditTime: 2021-08-27 22:09:32
  */
 import { ConfigEnv, defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
 import { resolve } from "path";
 import { viteMockServe } from "vite-plugin-mock";
+import styleImport from "vite-plugin-style-import";
+import WindiCSS from "vite-plugin-windicss";
 
 const pathResolve = (dir: string) => {
   return resolve(process.cwd(), ".", dir);
@@ -20,7 +22,20 @@ export default ({ mode, command }: ConfigEnv) => {
   const mockPlugin = env.VITE_USE_MOCK && viteMockServe({ ignore: /^\_/, mockPath: "mock", localEnabled: command === "serve" });
 
   return defineConfig({
-    plugins: [vue(), mockPlugin],
+    plugins: [
+      vue(),
+      WindiCSS(),
+      mockPlugin,
+      styleImport({
+        libs: [
+          {
+            libraryName: "vant",
+            esModule: true,
+            resolveStyle: (name) => `vant/es/${name}/style`,
+          },
+        ],
+      }),
+    ],
     resolve: {
       alias: [
         {

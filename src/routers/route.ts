@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-26 12:41:57
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-26 16:51:20
+ * @LastEditTime: 2021-08-27 21:31:45
  */
 
 import { RouterEnum } from "@/enums/routerEnum";
@@ -13,7 +13,7 @@ export const menusRoutes: RouteRecordRaw[] = [
   {
     path: `/${RouterEnum.Dashboard}`,
     name: RouterEnum.Dashboard,
-    component: () => import("@/views/dashboard/Dashboard.vue"),
+    component: () => import("@/views/mobile/dashboard/Dashboard.vue"),
   },
 ];
 
@@ -26,12 +26,12 @@ export const routes: RouteRecordRaw[] = [
   {
     path: `/${RouterEnum.Login}`,
     name: RouterEnum.Login,
-    component: () => import("@/views/login/Login.vue"),
+    component: () => import("@/views/mobile/login/Login.vue"),
   },
   {
     path: `/${RouterEnum.Home}`,
     name: RouterEnum.Home,
-    component: () => import("@/views/home/Home.vue"),
+    component: () => import("@/views/mobile/home/Home.vue"),
     children: menusRoutes,
   },
 ];

@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-26 22:14:36
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-26 22:34:45
+ * @LastEditTime: 2021-08-27 22:15:31
  */
 import { isObject, isString } from "@/utils/is";
 
@@ -38,7 +38,7 @@ export function formatRequestDate(params: Record<string, any>) {
         try {
           params[key] = isString(value) ? value.trim() : value;
         } catch (error) {
-          throw new Error(error);
+          throw new Error(error as string);
         }
       }
     }
