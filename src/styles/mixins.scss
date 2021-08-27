@@ -1,0 +1,19 @@
+@mixin flex($direction: row, $justify: center, $align: center, $flex-wrap: null) {
+  @if ($flex-wrap != null) {
+    flex-wrap: $flex-wrap;
+  }
+
+  @if ($direction != null) {
+    flex-direction: $direction;
+  }
+
+  @if ($justify != null) {
+    justify-content: $justify;
+  }
+
+  @if ($align != null) {
+    align-items: $align;
+  }
+
+  display: flex;
+}
