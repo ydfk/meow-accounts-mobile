@@ -3,8 +3,12 @@
  * @Author: ydfk
  * @Date: 2021-08-26 22:20:02
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-26 22:35:58
+ * @LastEditTime: 2021-08-28 20:35:15
  */
+
+import { RouterEnum } from "@/enums/routerEnum";
+import { Dialog } from "vant";
+import { useRouter } from "vue-router";
 
 export function checkStatus(status: number, msg: string): void {
   let errMessage = "";
@@ -17,10 +21,20 @@ export function checkStatus(status: number, msg: string): void {
     // Jump to the login page if not logged in, and carry the path of the current page
     // Return to the current page after successful login. This step needs to be operated on the login page.
     case 401:
-      errMessage = msg || "用户没有权限（令牌、用户名、密码错误）!";
-      // store.dispatch('user/loginOut', {
-      //   goLogin: true,
-      // });
+      errMessage = msg || "用户没有权限（令牌、用户名、密码错误、登录过期）!";
+
+      Dialog.confirm({
+        message: "sss",
+        showCancelButton: false,
+        confirmButtonText: "重新登录",
+      })
+        .then(() => {
+          useRouter().push(RouterEnum.Login);
+        })
+        .catch(() => {
+          // on cancel
+        });
+
       break;
     case 403:
       errMessage = "用户得到授权，但是访问是被禁止的。!";

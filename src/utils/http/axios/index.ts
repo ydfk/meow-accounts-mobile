@@ -3,11 +3,12 @@
  * @Author: ydfk
  * @Date: 2021-08-26 21:51:41
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-28 17:22:25
+ * @LastEditTime: 2021-08-28 19:58:47
  */
 
 import { Result, RequestOptions } from "#/axios";
 import { RequestEnum, ContentTypeEnum } from "@/enums/httpEnum";
+import { useUserStoreWithOut } from "@/stores/modules/user";
 import { setObjToUrlParams, deepMerge } from "@/utils";
 import { isString } from "@/utils/is";
 import { AxiosResponse } from "axios";
@@ -105,8 +106,9 @@ const transform: AxiosTransform = {
    */
   requestInterceptors: (config, options) => {
     // 请求之前处理config
-    // TODO: 获取token
-    const token = "";
+    const { getToken } = useUserStoreWithOut();
+    console.log("🚀 ~ axios getToken", getToken);
+    const token = getToken;
     if (token && (config as Record<string, any>)?.requestOptions?.withToken !== false) {
       // jwt token
       config.headers.Authorization = options.authenticationScheme ? `${options.authenticationScheme} ${token}` : token;

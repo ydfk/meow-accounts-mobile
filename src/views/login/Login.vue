@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-26 09:16:24
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-28 18:06:22
+ * @LastEditTime: 2021-08-28 20:44:52
 -->
 <template>
   <div class="h-full p-5 flex flex-col justify-center">
@@ -48,7 +48,7 @@
       if (token && token.token) {
         const userStore = useUserStore();
         userStore.setToken(token);
-        router.push(RouterEnum.Dashboard);
+        router.push(RouterEnum.Home);
         Toast.success("登录成功");
       } else {
         Toast.fail("用户名或者密码不正确");
