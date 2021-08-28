@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-24 17:24:45
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-27 22:09:32
+ * @LastEditTime: 2021-08-28 14:29:05
  */
 import { ConfigEnv, defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
@@ -68,7 +68,7 @@ export default ({ mode, command }: ConfigEnv) => {
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: `@import "./src/styles/var.scss";@import "./src/styles/global.scss";@import "./src/styles/mixins.scss";`,
+          additionalData: `@import "./src/styles/var.scss";`,
         },
       },
     },

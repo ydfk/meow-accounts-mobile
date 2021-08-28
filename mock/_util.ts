@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-27 12:15:21
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-27 12:20:27
+ * @LastEditTime: 2021-08-28 17:10:49
  */
 
 export interface requestParams {
@@ -45,4 +45,11 @@ export function pagination<T = any>(pageIndex: number, pageSize: number, array: 
   const offset = (pageIndex - 1) * Number(pageSize);
   const ret = offset + Number(pageSize) >= array.length ? array.slice(offset, array.length) : array.slice(offset, offset + Number(pageSize));
   return ret;
+}
+
+export interface requestParams {
+  method: string;
+  body: any;
+  headers?: { authorization?: string };
+  query: any;
 }

@@ -3,18 +3,34 @@
  * @Author: ydfk
  * @Date: 2021-08-24 17:24:45
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-26 13:06:28
+ * @LastEditTime: 2021-08-28 16:33:11
 -->
 <template>
-  <RouterView />
+  <van-config-provider class="h-full" :theme-vars="themeVars">
+    <RouterView />
+  </van-config-provider>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+  const themeVars = {
+    cellGroupInsetPadding: 0,
+  };
+</script>
 
 <style lang="scss">
-  @import "./styles/var.scss";
+  @import "styles/global.scss";
+
+  html {
+    @apply h-full w-full bg-[rgb(247,248,250)];
+
+    font-family: $fontFamily;
+  }
 
   body {
-    font-family: $fontFamily;
+    @apply h-full w-full;
+  }
+
+  #app {
+    @apply h-full w-full;
   }
 </style>

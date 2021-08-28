@@ -3,10 +3,8 @@
  * @Author: ydfk
  * @Date: 2021-08-26 16:44:06
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-26 16:45:09
+ * @LastEditTime: 2021-08-28 17:38:36
 -->
 <template>
-  <div class="home">
-    <router-view />
-  </div>
+  <router-view />
 </template>

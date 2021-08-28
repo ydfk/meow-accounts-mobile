@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-26 21:51:41
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-27 22:15:30
+ * @LastEditTime: 2021-08-28 17:22:25
  */
 
 import { Result, RequestOptions } from "#/axios";
@@ -11,6 +11,7 @@ import { RequestEnum, ContentTypeEnum } from "@/enums/httpEnum";
 import { setObjToUrlParams, deepMerge } from "@/utils";
 import { isString } from "@/utils/is";
 import { AxiosResponse } from "axios";
+import { Toast } from "vant";
 import { AxiosTransform, CreateAxiosOptions } from "./axiosTransform";
 import { checkStatus } from "./checkStatus";
 import { formatRequestDate, joinTimestamp } from "./helper";
@@ -50,9 +51,7 @@ const transform: AxiosTransform = {
       return result;
     }
 
-    // TODO: 引入第三方ui组件后可处理
-    alert(message);
-
+    Toast.fail(message);
     throw new Error(message || "请求出错, 请稍候重试");
   },
 
@@ -141,8 +140,7 @@ const transform: AxiosTransform = {
       }
 
       if (errMessage) {
-        // TODO: 引入第三方ui组件后可处理
-        alert(message);
+        Toast.fail(message);
         return Promise.reject(error);
       }
     } catch (error) {
