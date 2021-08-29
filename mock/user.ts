@@ -3,11 +3,11 @@
  * @Author: ydfk
  * @Date: 2021-08-27 12:01:39
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-29 14:51:58
+ * @LastEditTime: 2021-08-29 17:28:10
  */
 import { MockMethod } from "vite-plugin-mock";
 import { requestParams, resultSuccess } from "./_util";
-import dayjs, { OpUnitType } from "dayjs";
+import dayjs from "dayjs";
 
 export default [
   {

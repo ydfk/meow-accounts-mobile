@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-24 18:23:01
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-25 10:23:54
+ * @LastEditTime: 2021-08-29 15:59:52
  */
 module.exports = {
   root: true,
@@ -25,7 +25,7 @@ module.exports = {
     "at-rule-no-unknown": [
       true,
       {
-        ignoreAtRules: ["tailwind", "apply", "variants", "responsive", "screen", "function", "if", "each", "include", "mixin"],
+        ignoreAtRules: ["tailwind", "apply", "variants", "responsive", "screen", "function", "if", "each", "include", "mixin", "extend"],
       },
     ],
     "no-empty-source": null,

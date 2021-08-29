@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-26 21:51:41
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-28 19:58:47
+ * @LastEditTime: 2021-08-29 18:34:19
  */
 
 import { Result, RequestOptions } from "#/axios";
@@ -52,7 +52,7 @@ const transform: AxiosTransform = {
       return result;
     }
 
-    Toast.fail(message);
+    Toast.fail(message || "请求出错, 请稍候重试");
     throw new Error(message || "请求出错, 请稍候重试");
   },
 
