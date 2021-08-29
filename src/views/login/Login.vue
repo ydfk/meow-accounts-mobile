@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-26 09:16:24
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-28 20:44:52
+ * @LastEditTime: 2021-08-29 14:40:18
 -->
 <template>
   <div class="h-full p-5 flex flex-col justify-center">
@@ -32,6 +32,7 @@
   import { ref } from "vue";
 
   const router = useRouter();
+  const { setToken } = useUserStore();
   const userName = ref("");
   const password = ref("");
 
@@ -46,10 +47,9 @@
 
       const token = await loginApi(userName.value, password.value);
       if (token && token.token) {
-        const userStore = useUserStore();
-        userStore.setToken(token);
-        router.push(RouterEnum.Home);
         Toast.success("登录成功");
+        await setToken(token);
+        router.push(RouterEnum.Home);
       } else {
         Toast.fail("用户名或者密码不正确");
       }

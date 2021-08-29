@@ -3,10 +3,12 @@
  * @Author: ydfk
  * @Date: 2021-08-26 16:44:06
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-28 21:12:49
+ * @LastEditTime: 2021-08-29 14:55:34
 -->
 <template>
-  <router-view />
+  <div class="p-2">
+    <router-view />
+  </div>
   <van-tabbar v-model="active" @change="onChange">
     <van-tabbar-item name="account" icon="balance-o">记账</van-tabbar-item>
     <van-tabbar-item name="statistic" icon="bar-chart-o">统计</van-tabbar-item>
@@ -23,7 +25,6 @@
   const active = ref(RouterEnum.Account);
 
   const onChange = (index) => {
-    console.log("🚀 ~ file: Home.vue ~ line 22 ~ onChange ~ index", index);
     router.push(index);
   };
 

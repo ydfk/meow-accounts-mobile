@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-26 12:41:57
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-28 21:06:12
+ * @LastEditTime: 2021-08-29 14:31:20
  */
 
 import { RouterEnum } from "@/enums/routerEnum";
@@ -18,6 +18,9 @@ export const routes: RouteRecordRaw[] = [
   {
     path: `/${RouterEnum.Login}`,
     name: RouterEnum.Login,
+    meta: {
+      needAuth: false,
+    },
     component: () => import("@/views/login/Login.vue"),
   },
   {

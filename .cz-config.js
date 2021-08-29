@@ -24,7 +24,7 @@ module.exports = {
   // scope 类型（定义之后，可通过上下键选择）
   scopes: [
     ["components", "组件相关"],
-    ["ui", "对 ui组件 的调整"],
+    ["vant", "对 ui组件 的调整"],
     ["styles", "样式相关"],
     ["deps", "项目依赖"],
     ["utils", "项目工具类修改"],

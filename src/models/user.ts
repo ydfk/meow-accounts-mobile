@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-28 13:20:32
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-28 17:01:15
+ * @LastEditTime: 2021-08-29 14:52:36
  */
 
 import { BaseModel } from ".";
@@ -18,5 +18,5 @@ export interface UserModel extends BaseModel {
  */
 export interface TokenModel {
   token: string;
-  tokenExpiration: number;
+  tokenExpiration: string;
 }

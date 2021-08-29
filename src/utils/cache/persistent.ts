@@ -1,0 +1,27 @@
+/*
+ * @Description: Copyright (c) ydfk. All rights reserved
+ * @Author: ydfk
+ * @Date: 2021-08-29 15:12:36
+ * @LastEditors: ydfk
+ * @LastEditTime: 2021-08-29 15:25:31
+ */
+
+import { CacheEnum } from "@/enums/cacheEnum";
+import { TokenModel } from "@/models/user";
+import { createStorage } from "./storageCache";
+
+const ss = createStorage({
+  prefixKey: "MEOW_",
+  storage: sessionStorage,
+});
+
+interface BasicStore {
+  [CacheEnum.Token]: TokenModel | null | undefined;
+}
+
+export const getSession = <T>(key: CacheEnum) => ss.get(key) as T;
+export const setSession = (key: CacheEnum, val: BasicStore[CacheEnum]): void => {
+  ss.set(key, val);
+};
+export const removeSession = (key: CacheEnum) => ss.remove(key);
+export const clearSession = () => ss.clear();
