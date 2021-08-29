@@ -6,7 +6,7 @@ import { BaseModel } from ".";
  * @Author: ydfk
  * @Date: 2021-08-29 17:17:25
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-29 17:59:03
+ * @LastEditTime: 2021-08-30 00:30:13
  */
 export interface AccountModel extends BaseModel {
   date: Date;
@@ -14,4 +14,9 @@ export interface AccountModel extends BaseModel {
   category: string;
   remark: string;
   type: AccountTypeEnum;
+}
+
+export interface AccountGroupDayModel {
+  dateOfDay: string;
+  accounts: AccountModel[];
 }

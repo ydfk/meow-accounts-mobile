@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-24 17:24:45
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-28 14:29:05
+ * @LastEditTime: 2021-08-29 21:50:24
  */
 import { ConfigEnv, defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
@@ -23,7 +23,7 @@ export default ({ mode, command }: ConfigEnv) => {
 
   return defineConfig({
     plugins: [
-      vue(),
+      vue({ refTransform: true }),
       WindiCSS(),
       mockPlugin,
       styleImport({

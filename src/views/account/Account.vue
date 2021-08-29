@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-28 21:02:14
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-29 19:55:41
+ * @LastEditTime: 2021-08-30 00:11:30
 -->
 <template>
   <van-sticky position="top">
@@ -34,7 +34,7 @@
   </van-sticky>
 
   <van-pull-refresh v-model="loadingAccounts" @refresh="fetchAccount">
-    <AccountMonth :accounts="accounts" />
+    <van-skeleton round title avatar :row="15" :loading="loadingAccounts"><AccountMonth :accounts="accounts" /></van-skeleton>
   </van-pull-refresh>
 
   <van-popup v-model:show="showDatePicker" position="bottom" round safe-area-inset-bottom>
@@ -58,7 +58,6 @@
   import AccountMonth from "./AccountMonth.vue";
 
   const loadingAccounts = ref(true);
-
   const minDate = new Date(2010, 0, 1);
   const maxDate = new Date(2050, 11, 1);
   const currentDate = ref(new Date());
