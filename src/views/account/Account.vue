@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-28 21:02:14
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-30 00:11:30
+ * @LastEditTime: 2021-08-30 23:17:07
 -->
 <template>
   <van-sticky position="top">
@@ -17,13 +17,15 @@
 
       <div class="w-[60%]">
         <van-skeleton round :row="2" :loading="loadingAccounts">
-          <div class="flex justify-evenly">
-            <span class="font-thin">收入</span>
-            <span class="font-semibold">{{ totalIncome }}</span>
-          </div>
-          <div class="flex justify-evenly">
-            <span class="font-thin">支出</span>
-            <span class="font-semibold">{{ totalExpenditure }}</span>
+          <div class="flex justify-around">
+            <div class="flex flex-col">
+              <span class="font-thin">收入</span>
+              <span class="font-thin">支出</span>
+            </div>
+            <div class="flex flex-col">
+              <span class="font-thin text-right text-green-500">{{ totalIncome }}</span>
+              <span class="font-thin text-right text-red-500">{{ totalExpenditure }}</span>
+            </div>
           </div>
         </van-skeleton>
       </div>
@@ -33,7 +35,7 @@
     </div>
   </van-sticky>
 
-  <van-pull-refresh v-model="loadingAccounts" @refresh="fetchAccount">
+  <van-pull-refresh v-model="loadingAccounts" @refresh="fetchAccount" class="p-4">
     <van-skeleton round title avatar :row="15" :loading="loadingAccounts"><AccountMonth :accounts="accounts" /></van-skeleton>
   </van-pull-refresh>
 
@@ -56,6 +58,7 @@
   import { AccountTypeEnum } from "@/enums/accountEnum";
   import { formatMoney } from "@/utils/numberUtil";
   import AccountMonth from "./AccountMonth.vue";
+  import { reduceAccountAmount } from "./common";
 
   const loadingAccounts = ref(true);
   const minDate = new Date(2010, 0, 1);
@@ -68,23 +71,8 @@
   const showDatePicker = ref(false);
 
   const accounts = ref<AccountModel[]>([]);
-  const totalIncome = computed(() => {
-    let income = 0;
-    const incomeAmounts = accounts.value.filter((f) => f.type == AccountTypeEnum.Income).map((m) => m.amount);
-    if (incomeAmounts && incomeAmounts.length > 0) {
-      income = incomeAmounts.reduce((p, c) => p + c);
-    }
-    return formatMoney(income);
-  });
-
-  const totalExpenditure = computed(() => {
-    let expenditure = 0;
-    const incomeAmounts = accounts.value.filter((f) => f.type == AccountTypeEnum.Expenditure).map((m) => m.amount);
-    if (incomeAmounts && incomeAmounts.length > 0) {
-      expenditure = incomeAmounts.reduce((p, c) => p + c);
-    }
-    return formatMoney(expenditure);
-  });
+  const totalIncome = computed(() => formatMoney(reduceAccountAmount(accounts.value, AccountTypeEnum.Income)));
+  const totalExpenditure = computed(() => formatMoney(reduceAccountAmount(accounts.value, AccountTypeEnum.Expenditure)));
 
   const onSelectDate = () => {
     datePickerDate.value = currentDate.value;

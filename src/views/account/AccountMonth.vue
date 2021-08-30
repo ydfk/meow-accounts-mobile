@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-29 19:49:10
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-30 00:45:26
+ * @LastEditTime: 2021-08-30 22:43:21
 -->
 <template>
   <van-empty description="暂无数据" v-if="accounts.length == 0" />
@@ -11,7 +11,7 @@
     <div v-for="account in accountGroupDays" :key="account.dateOfDay" class="flex justify-evenly w-full">
       <AccountDay :accountGroupDay="account" />
     </div>
-    <span>没有更多数据了</span>
+    <span class="flex justify-center m-text-gray">没有更多数据了</span>
   </div>
 </template>
 <script lang="ts" setup>

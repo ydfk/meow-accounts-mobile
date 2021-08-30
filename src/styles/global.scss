@@ -1,3 +1,9 @@
 .content-box {
   @apply p-2 rounded-md bg-white;
 }
+
+.m-text-gray {
+  @apply text-gray-600;
+
+  font-size: 0.9rem;
+}

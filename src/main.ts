@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-24 17:24:45
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-30 00:58:33
+ * @LastEditTime: 2021-08-30 23:36:05
  */
 import { createApp } from "vue";
 import App from "./App.vue";
@@ -16,6 +16,7 @@ import {
   Row,
   Form,
   Field,
+  Cell,
   CellGroup,
   Button,
   Icon,
@@ -29,6 +30,7 @@ import {
   Sticky,
   Popup,
   Skeleton,
+  SwipeCell,
 } from "vant";
 
 import "virtual:windi.css";
@@ -56,6 +58,8 @@ const bootstrap = () => {
   app.use(Sticky);
   app.use(Popup);
   app.use(Skeleton);
+  app.use(SwipeCell);
+  app.use(Cell);
 
   setupRouter(app);
   setupStore(app);

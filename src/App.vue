@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-24 17:24:45
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-28 16:33:11
+ * @LastEditTime: 2021-08-30 23:52:38
 -->
 <template>
   <van-config-provider class="h-full" :theme-vars="themeVars">
@@ -14,6 +14,7 @@
 <script lang="ts" setup>
   const themeVars = {
     cellGroupInsetPadding: 0,
+    cellGroupInsetTitlePadding: "1.3vh 2vh",
   };
 </script>
 
