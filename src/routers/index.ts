@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-26 12:30:11
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-29 14:54:10
+ * @LastEditTime: 2021-08-31 22:50:54
  */
 
 import { App } from "vue";
@@ -19,7 +19,7 @@ export const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from) => {
+router.beforeEach((to) => {
   NProgress.start();
   const { getToken } = useUserStoreWithOut();
   if (to.meta && to.meta.title) {
@@ -28,7 +28,7 @@ router.beforeEach((to, from) => {
 
   if (!to.meta || Object.keys(to.meta).length === 0 || (to.meta && to.meta.needAuth)) {
     if (!getToken) {
-      router.push(RouterEnum.Login);
+      return { name: RouterEnum.Login };
     }
   }
 

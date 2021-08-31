@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-29 19:46:00
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-31 00:16:50
+ * @LastEditTime: 2021-08-31 23:12:24
 -->
 <template>
   <div class="w-full">
@@ -12,17 +12,24 @@
         <div class="flex justify-between">
           <span class="m-text-gray block text-center">{{ accountGroupDay.dateOfDay }}</span>
           <span>
-            <span class="m-text-gray text-green-400" v-if="totalIncome > 0">收 {{ formatMoney(totalIncome) }}</span>
-            <span class="m-text-gray text-red-400 ml-2" v-if="totalExpenditure > 0">支 {{ formatMoney(totalExpenditure) }}</span>
+            <span class="m-text-gray" v-if="totalIncome > 0">收 {{ formatMoney(totalIncome) }}</span>
+            <span class="m-text-gray ml-2" v-if="totalExpenditure > 0">支 {{ formatMoney(totalExpenditure) }}</span>
           </span>
         </div>
       </template>
-      <van-swipe-cell v-for="account in accountGroupDay.accounts" :key="account.id" :beforeClose="onBeforeClose">
-        <van-cell :title="account.category" @click="onCellClick">
-          <template #value>
-            <span>{{ `${amountSymbol(account.type)}${formatMoney(account.amount)}` }}</span>
-          </template>
-        </van-cell>
+      <van-swipe-cell v-for="(account, index) in accountGroupDay.accounts" :key="account.id" :beforeClose="onBeforeClose">
+        <div :class="index < accountGroupDay.accounts.length - 1 ? 'divide-y-reverse divide-y px-2' : 'px-2'">
+          <div class="flex justify-between px-1 pt-1">
+            <div>{{ account.category }}</div>
+            <span :class="isIncome(account.type) ? 'text-green-500' : 'text-red-500'">{{
+              `${amountSymbol(account.type)}${formatMoney(account.amount)}`
+            }}</span>
+          </div>
+          <div
+            ><span class="px-1 block text-gray-300 text-sm truncate">{{ account.remark }}</span></div
+          >
+        </div>
+
         <template #right>
           <van-button square type="danger" text="删除" />
         </template>
@@ -46,6 +53,7 @@
   const totalExpenditure = computed(() => reduceAccountAmount(props.accountGroupDay.accounts, AccountTypeEnum.Expenditure));
 
   const amountSymbol = (type: AccountTypeEnum) => (type == AccountTypeEnum.Income ? "+" : "-");
+  const isIncome = (type: AccountTypeEnum) => type == AccountTypeEnum.Income;
 
   const onCellClick = (position) => {
     console.log("🚀 ~ file: AccountDay.vue ~ line 51 ~ onCellClick ~ position", position);

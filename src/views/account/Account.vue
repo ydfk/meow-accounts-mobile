@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-28 21:02:14
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-30 23:17:07
+ * @LastEditTime: 2021-08-31 23:30:49
 -->
 <template>
   <van-sticky position="top">
@@ -30,7 +30,7 @@
         </van-skeleton>
       </div>
       <div class="w-[20%] flex justify-center">
-        <van-button class="rounded-full w-[48px] h-[48px]" icon="plus" type="primary" />
+        <van-button class="rounded-full w-[48px] h-[48px]" icon="plus" type="primary" @click="showAdd = true" />
       </div>
     </div>
   </van-sticky>
@@ -49,6 +49,9 @@
       @confirm="onChangeDate"
       @cancel="showDatePicker = false"
   /></van-popup>
+  <van-popup v-model:show="showAdd" position="bottom" round safe-area-inset-bottom closeable :close-on-click-overlay="false">
+    <AddAccount />
+  </van-popup>
 </template>
 <script lang="ts" setup>
   import dayjs from "dayjs";
@@ -58,6 +61,7 @@
   import { AccountTypeEnum } from "@/enums/accountEnum";
   import { formatMoney } from "@/utils/numberUtil";
   import AccountMonth from "./AccountMonth.vue";
+  import AddAccount from "./AddAcount.vue";
   import { reduceAccountAmount } from "./common";
 
   const loadingAccounts = ref(true);
@@ -73,6 +77,8 @@
   const accounts = ref<AccountModel[]>([]);
   const totalIncome = computed(() => formatMoney(reduceAccountAmount(accounts.value, AccountTypeEnum.Income)));
   const totalExpenditure = computed(() => formatMoney(reduceAccountAmount(accounts.value, AccountTypeEnum.Expenditure)));
+
+  const showAdd = ref(false);
 
   const onSelectDate = () => {
     datePickerDate.value = currentDate.value;

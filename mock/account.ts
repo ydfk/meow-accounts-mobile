@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-29 17:27:16
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-29 20:07:24
+ * @LastEditTime: 2021-08-31 21:14:13
  */
 
 import { MockMethod } from "vite-plugin-mock";
@@ -35,7 +35,7 @@ export default [
 
         const days = endDate.diff(beginDate, "d");
 
-        for (let i = 1; i <= days; i++) {
+        for (let i = days; i > 0; i--) {
           const date = beginDate.day(i);
           const count = random(0, 5);
 
