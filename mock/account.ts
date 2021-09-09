@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-29 17:27:16
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-31 21:14:13
+ * @LastEditTime: 2021-09-09 21:56:42
  */
 
 import { MockMethod } from "vite-plugin-mock";
@@ -18,7 +18,7 @@ const getAccount = (date: Date) => {
     amount: "@float(1, 50000, 0, 2)",
     category: "@cword(2, 5)",
     remark: "@cword(0, 100)",
-    "type|1": ["income", "expenditure"],
+    "type|1": ["0", "1"],
   };
 };
 

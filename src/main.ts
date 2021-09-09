@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-24 17:24:45
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-31 23:38:22
+ * @LastEditTime: 2021-09-09 22:01:12
  */
 import { createApp } from "vue";
 import App from "./App.vue";
@@ -32,6 +32,8 @@ import {
   Skeleton,
   SwipeCell,
   NumberKeyboard,
+  Radio,
+  RadioGroup,
 } from "vant";
 
 import "virtual:windi.css";
@@ -62,6 +64,8 @@ const bootstrap = () => {
   app.use(SwipeCell);
   app.use(Cell);
   app.use(NumberKeyboard);
+  app.use(Radio);
+  app.use(RadioGroup);
 
   setupRouter(app);
   setupStore(app);

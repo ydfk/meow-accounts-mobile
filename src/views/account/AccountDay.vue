@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-29 19:46:00
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-31 23:12:24
+ * @LastEditTime: 2021-09-09 21:47:13
 -->
 <template>
   <div class="w-full">
@@ -26,7 +26,7 @@
             }}</span>
           </div>
           <div
-            ><span class="px-1 block text-gray-300 text-sm truncate">{{ account.remark }}</span></div
+            ><span class="px-1 block text-gray-300 text-sm">{{ account.remark }}</span></div
           >
         </div>
 
@@ -49,8 +49,8 @@
     accountGroupDay: { type: Object as PropType<AccountGroupDayModel>, required: true },
   });
 
-  const totalIncome = computed(() => reduceAccountAmount(props.accountGroupDay.accounts, AccountTypeEnum.Income));
-  const totalExpenditure = computed(() => reduceAccountAmount(props.accountGroupDay.accounts, AccountTypeEnum.Expenditure));
+  let totalIncome = $computed(() => reduceAccountAmount(props.accountGroupDay.accounts, AccountTypeEnum.Income));
+  let totalExpenditure = $computed(() => reduceAccountAmount(props.accountGroupDay.accounts, AccountTypeEnum.Expenditure));
 
   const amountSymbol = (type: AccountTypeEnum) => (type == AccountTypeEnum.Income ? "+" : "-");
   const isIncome = (type: AccountTypeEnum) => type == AccountTypeEnum.Income;

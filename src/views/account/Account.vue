@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-28 21:02:14
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-31 23:30:49
+ * @LastEditTime: 2021-09-09 22:38:50
 -->
 <template>
   <van-sticky position="top">
@@ -49,7 +49,7 @@
       @confirm="onChangeDate"
       @cancel="showDatePicker = false"
   /></van-popup>
-  <van-popup v-model:show="showAdd" position="bottom" round safe-area-inset-bottom closeable :close-on-click-overlay="false">
+  <van-popup v-model:show="showAdd" class="h-[75%]" position="bottom" round safe-area-inset-bottom closeable :close-on-click-overlay="false">
     <AddAccount />
   </van-popup>
 </template>

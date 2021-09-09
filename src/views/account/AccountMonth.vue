@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-29 19:49:10
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-31 21:13:45
+ * @LastEditTime: 2021-09-09 22:37:04
 -->
 <template>
   <van-empty description="暂无数据" v-if="accounts.length == 0" />
@@ -19,7 +19,6 @@
   import dayjs from "dayjs";
   import { computed, PropType } from "vue";
   import AccountDay from "@/views/account/AccountDay.vue";
-  import lodash from "lodash-es";
 
   const props = defineProps({
     accounts: { type: Array as PropType<AccountModel[]>, required: true },
