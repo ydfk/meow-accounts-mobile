@@ -3,15 +3,15 @@
  * @Author: ydfk
  * @Date: 2021-08-28 21:02:14
  * @LastEditors: ydfk
- * @LastEditTime: 2021-09-09 22:38:50
+ * @LastEditTime: 2021-09-10 23:01:29
 -->
 <template>
   <van-sticky position="top">
     <div class="flex justify-center content-box divide-x-1">
       <div class="w-[20%] flex justify-center">
         <div>
-          <div class="font-semibold">{{ currentYear }}年</div>
-          <div class="font-semibold">{{ currentMonth }}月 <van-icon name="arrow-down" color="#3f90ff" @click="onSelectDate" /></div>
+          <div class="font-bold">{{ currentYear }}年</div>
+          <div class="font-bold">{{ currentMonth }}月 <van-icon name="arrow-down" color="#3f90ff" @click="onSelectDate" /></div>
         </div>
       </div>
 
@@ -19,12 +19,12 @@
         <van-skeleton round :row="2" :loading="loadingAccounts">
           <div class="flex justify-around">
             <div class="flex flex-col">
-              <span class="font-thin">收入</span>
-              <span class="font-thin">支出</span>
+              <span class="font-bold">收入</span>
+              <span class="font-bold">支出</span>
             </div>
             <div class="flex flex-col">
-              <span class="font-thin text-right text-green-500">{{ totalIncome }}</span>
-              <span class="font-thin text-right text-red-500">{{ totalExpenditure }}</span>
+              <span class="font-bold text-right text-green-500">{{ totalIncome }}</span>
+              <span class="font-bold text-right text-red-500">{{ totalExpenditure }}</span>
             </div>
           </div>
         </van-skeleton>
@@ -39,7 +39,7 @@
     <van-skeleton round title avatar :row="15" :loading="loadingAccounts"><AccountMonth :accounts="accounts" /></van-skeleton>
   </van-pull-refresh>
 
-  <van-popup v-model:show="showDatePicker" position="bottom" round safe-area-inset-bottom>
+  <van-popup v-model:show="showDatePicker" position="bottom" round>
     <van-datetime-picker
       v-model="datePickerDate"
       type="year-month"
@@ -49,7 +49,7 @@
       @confirm="onChangeDate"
       @cancel="showDatePicker = false"
   /></van-popup>
-  <van-popup v-model:show="showAdd" class="h-[75%]" position="bottom" round safe-area-inset-bottom closeable :close-on-click-overlay="false">
+  <van-popup v-model:show="showAdd" class="h-full" position="bottom" closeable :close-on-click-overlay="false">
     <AddAccount />
   </van-popup>
 </template>
@@ -95,7 +95,12 @@
     loadingAccounts.value = true;
     const begin = dayjs(currentDate.value).startOf("M").toDate();
     const end = dayjs(currentDate.value).endOf("M").toDate();
-    accounts.value = await accountApi(begin, end);
+    const fetchAccounts = await accountApi(begin, end);
+    for (const account of fetchAccounts) {
+      account.type = account.amount > 0 ? AccountTypeEnum.Income : AccountTypeEnum.Expenditure;
+    }
+
+    accounts.value = fetchAccounts;
     loadingAccounts.value = false;
   };
 

@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-29 17:27:16
  * @LastEditors: ydfk
- * @LastEditTime: 2021-09-09 21:56:42
+ * @LastEditTime: 2021-09-10 22:31:53
  */
 
 import { MockMethod } from "vite-plugin-mock";
@@ -15,10 +15,11 @@ const getAccount = (date: Date) => {
   return {
     id: "@guid",
     date: date,
-    amount: "@float(1, 50000, 0, 2)",
+    amount: "@float(-50000, 50000, 0, 2)",
     category: "@cword(2, 5)",
     remark: "@cword(0, 100)",
-    "type|1": ["0", "1"],
+    type: 0,
+    receipt: "boolean|1",
   };
 };
 
@@ -41,7 +42,8 @@ export default [
 
           if (count > 0) {
             for (let index = 1; index <= count; index++) {
-              getAccounts.push(getAccount(date.toDate()));
+              const account = getAccount(date.toDate());
+              getAccounts.push(account);
             }
           }
         }

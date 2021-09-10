@@ -3,13 +3,13 @@
  * @Author: ydfk
  * @Date: 2021-08-28 17:27:23
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-29 15:37:49
+ * @LastEditTime: 2021-09-10 23:13:25
  */
 import { TokenModel } from "@/models/user";
 import day from "dayjs";
 import { defineStore } from "pinia";
 import { store } from "@/stores";
-import { setSession, getSession, removeSession } from "@/utils/cache/persistent";
+import { setLocal, getLocal, removeLocal } from "@/utils/cache/persistent";
 import { CacheEnum } from "@/enums/cacheEnum";
 
 interface UserState {
@@ -23,7 +23,7 @@ export const useUserStore = defineStore({
   }),
   getters: {
     getToken(): string {
-      const token = getSession<TokenModel>(CacheEnum.Token) || this.token;
+      const token = getLocal<TokenModel>(CacheEnum.Token) || this.token;
 
       if (token && token.token) {
         const expireTime = day(token.tokenExpiration).toDate();
@@ -31,13 +31,13 @@ export const useUserStore = defineStore({
 
         if (curTime > expireTime) {
           console.error("token已经过期");
-          removeSession(CacheEnum.Token);
+          removeLocal(CacheEnum.Token);
           return "";
         } else {
           return token.token;
         }
       } else {
-        removeSession(CacheEnum.Token);
+        removeLocal(CacheEnum.Token);
         return "";
       }
     },
@@ -46,13 +46,13 @@ export const useUserStore = defineStore({
     setToken(tokenModel: TokenModel): Promise<void> {
       return new Promise((resolve) => {
         this.token = tokenModel;
-        setSession(CacheEnum.Token, this.token);
+        setLocal(CacheEnum.Token, this.token);
         resolve();
       });
     },
     signOut(): void {
       this.token = { token: "", tokenExpiration: "" };
-      removeSession(CacheEnum.Token);
+      removeLocal(CacheEnum.Token);
     },
   },
 });

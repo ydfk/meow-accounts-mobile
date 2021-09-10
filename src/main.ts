@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-24 17:24:45
  * @LastEditors: ydfk
- * @LastEditTime: 2021-09-09 22:01:12
+ * @LastEditTime: 2021-09-10 22:49:09
  */
 import { createApp } from "vue";
 import App from "./App.vue";
@@ -34,6 +34,7 @@ import {
   NumberKeyboard,
   Radio,
   RadioGroup,
+  Switch,
 } from "vant";
 
 import "virtual:windi.css";
@@ -66,6 +67,7 @@ const bootstrap = () => {
   app.use(NumberKeyboard);
   app.use(Radio);
   app.use(RadioGroup);
+  app.use(Switch);
 
   setupRouter(app);
   setupStore(app);

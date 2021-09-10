@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-24 17:24:45
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-30 00:59:23
+ * @LastEditTime: 2021-09-10 20:58:04
  */
 import { ConfigEnv, defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
@@ -18,8 +18,21 @@ const pathResolve = (dir: string) => {
 
 export default ({ mode, command }: ConfigEnv) => {
   const env = loadEnv(mode, process.cwd());
+  const isBuild = command === "build";
 
-  const mockPlugin = env.VITE_USE_MOCK && viteMockServe({ ignore: /^\_/, mockPath: "mock", localEnabled: command === "serve" });
+  const mockPlugin =
+    env.VITE_USE_MOCK &&
+    viteMockServe({
+      ignore: /^\_/,
+      mockPath: "mock",
+      localEnabled: command === "serve",
+      prodEnabled: command !== "serve" && isBuild,
+      //  这样可以控制关闭mock的时候不让mock打包到最终代码内
+      injectCode: `
+        import { setupProdMockServer } from '../mock/_createProductionServer';
+        setupProdMockServer();
+      `,
+    });
 
   return defineConfig({
     plugins: [
