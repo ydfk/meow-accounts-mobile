@@ -3,12 +3,12 @@
  * @Author: ydfk
  * @Date: 2021-08-26 22:20:02
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-31 22:40:04
+ * @LastEditTime: 2021-09-12 22:09:18
  */
 
 import { RouterEnum } from "@/enums/routerEnum";
-import { Dialog } from "vant";
-import { useRouter } from "vue-router";
+import { Dialog, Toast } from "vant";
+import { router } from "@/routers/index";
 
 export function checkStatus(status: number, msg: string): void {
   let errMessage = "";
@@ -21,20 +21,7 @@ export function checkStatus(status: number, msg: string): void {
     // Jump to the login page if not logged in, and carry the path of the current page
     // Return to the current page after successful login. This step needs to be operated on the login page.
     case 401:
-      errMessage = msg || "用户没有权限（令牌、用户名、密码错误、登录过期）!";
-
-      Dialog.confirm({
-        message: "sss",
-        showCancelButton: false,
-        confirmButtonText: "重新登录",
-      })
-        .then(() => {
-          useRouter().push(RouterEnum.Login);
-        })
-        .catch(() => {
-          // on cancel
-        });
-
+      errMessage = msg || "用户没有权限（用户名、密码错误或登录过期）!";
       break;
     case 403:
       errMessage = "用户得到授权，但是访问是被禁止的。!";
@@ -77,6 +64,21 @@ export function checkStatus(status: number, msg: string): void {
     //   error({ content: errMessage, key: `global_error_message_status_${status}` });
     // }
     // TODO: 引入第三方ui组件后可处理
-    alert(errMessage);
+
+    if (status == 401) {
+      Dialog.confirm({
+        message: errMessage,
+        showCancelButton: false,
+        confirmButtonText: "重新登录",
+      })
+        .then(() => {
+          router.push(RouterEnum.Login);
+        })
+        .catch(() => {
+          // on cancel
+        });
+    } else {
+      Toast.fail(errMessage);
+    }
   }
 }

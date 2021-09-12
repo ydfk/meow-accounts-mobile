@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-28 17:27:23
  * @LastEditors: ydfk
- * @LastEditTime: 2021-09-10 23:13:25
+ * @LastEditTime: 2021-09-12 21:55:49
  */
 import { TokenModel } from "@/models/user";
 import day from "dayjs";
@@ -19,16 +19,16 @@ interface UserState {
 export const useUserStore = defineStore({
   id: "user",
   state: (): UserState => ({
-    token: { token: "", tokenExpiration: "" },
+    token: { token: "", expiration: new Date() },
   }),
   getters: {
     getToken(): string {
       const token = getLocal<TokenModel>(CacheEnum.Token) || this.token;
 
       if (token && token.token) {
-        const expireTime = day(token.tokenExpiration).toDate();
+        const expireTime = token.expiration;
         const curTime = day().toDate();
-
+        // todo: 滑动刷新
         if (curTime > expireTime) {
           console.error("token已经过期");
           removeLocal(CacheEnum.Token);
@@ -51,7 +51,7 @@ export const useUserStore = defineStore({
       });
     },
     signOut(): void {
-      this.token = { token: "", tokenExpiration: "" };
+      this.token = { token: "", expiration: new Date() };
       removeLocal(CacheEnum.Token);
     },
   },

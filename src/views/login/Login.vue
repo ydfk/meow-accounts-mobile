@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-26 09:16:24
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-29 14:40:18
+ * @LastEditTime: 2021-09-12 21:56:26
 -->
 <template>
   <div class="h-full p-5 flex flex-col justify-center">
@@ -23,29 +23,28 @@
   </div>
 </template>
 
-<script setup>
-  import { loginApi } from "@/apis/login";
+<script lang="ts" setup>
+  import { apiGetToken } from "@/apis/token";
   import { RouterEnum } from "@/enums/routerEnum";
   import { useUserStore } from "@/stores/modules/user";
   import { Toast } from "vant";
   import { useRouter } from "vue-router";
-  import { ref } from "vue";
 
   const router = useRouter();
   const { setToken } = useUserStore();
-  const userName = ref("");
-  const password = ref("");
+  let userName = $ref("");
+  let password = $ref("");
 
   const onLogin = async () => {
     Toast.clear();
-    if (userName.value && password.value) {
+    if (userName && password) {
       Toast.loading({
         duration: 0,
         forbidClick: true,
         message: "登陆中。。。",
       });
 
-      const token = await loginApi(userName.value, password.value);
+      const token = await apiGetToken(userName, password);
       if (token && token.token) {
         Toast.success("登录成功");
         await setToken(token);

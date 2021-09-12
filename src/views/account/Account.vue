@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-28 21:02:14
  * @LastEditors: ydfk
- * @LastEditTime: 2021-09-10 23:01:29
+ * @LastEditTime: 2021-09-12 22:03:01
 -->
 <template>
   <van-sticky position="top">
@@ -55,56 +55,57 @@
 </template>
 <script lang="ts" setup>
   import dayjs from "dayjs";
-  import { computed, onMounted, ref } from "vue";
+  import { onMounted } from "vue";
   import { AccountModel } from "@/models/account";
-  import { accountApi } from "@/apis/account";
+  import { apiGetAccountByMonth } from "@/apis/account";
   import { AccountTypeEnum } from "@/enums/accountEnum";
   import { formatMoney } from "@/utils/numberUtil";
   import AccountMonth from "./AccountMonth.vue";
   import AddAccount from "./AddAcount.vue";
   import { reduceAccountAmount } from "./common";
 
-  const loadingAccounts = ref(true);
+  let loadingAccounts = $ref(true);
   const minDate = new Date(2010, 0, 1);
   const maxDate = new Date(2050, 11, 1);
-  const currentDate = ref(new Date());
-  const currentYear = computed(() => dayjs(currentDate.value).year());
-  const currentMonth = computed(() => dayjs(currentDate.value).month() + 1);
+  let currentDate = $ref(new Date());
+  let currentYear = $computed(() => dayjs(currentDate).year());
+  let currentMonth = $computed(() => dayjs(currentDate).month() + 1);
 
-  const datePickerDate = ref(new Date());
-  const showDatePicker = ref(false);
+  let datePickerDate = $ref(new Date());
+  let showDatePicker = $ref(false);
 
-  const accounts = ref<AccountModel[]>([]);
-  const totalIncome = computed(() => formatMoney(reduceAccountAmount(accounts.value, AccountTypeEnum.Income)));
-  const totalExpenditure = computed(() => formatMoney(reduceAccountAmount(accounts.value, AccountTypeEnum.Expenditure)));
+  let accounts = $ref<AccountModel[]>([]);
+  let totalIncome = $computed(() => formatMoney(reduceAccountAmount(accounts, AccountTypeEnum.Income)));
+  let totalExpenditure = $computed(() => formatMoney(reduceAccountAmount(accounts, AccountTypeEnum.Expenditure)));
 
-  const showAdd = ref(false);
+  let showAdd = $ref(false);
 
   const onSelectDate = () => {
-    datePickerDate.value = currentDate.value;
-    showDatePicker.value = !showDatePicker.value;
+    datePickerDate = currentDate;
+    showDatePicker = !showDatePicker;
   };
 
   const onChangeDate = async (value: Date) => {
-    currentDate.value = value;
-    showDatePicker.value = false;
+    currentDate = value;
+    showDatePicker = false;
     await fetchAccount();
   };
 
   const fetchAccount = async () => {
-    loadingAccounts.value = true;
-    const begin = dayjs(currentDate.value).startOf("M").toDate();
-    const end = dayjs(currentDate.value).endOf("M").toDate();
-    const fetchAccounts = await accountApi(begin, end);
+    loadingAccounts = true;
+
+    const fetchAccounts = await apiGetAccountByMonth(currentYear, currentMonth);
     for (const account of fetchAccounts) {
       account.type = account.amount > 0 ? AccountTypeEnum.Income : AccountTypeEnum.Expenditure;
     }
 
-    accounts.value = fetchAccounts;
-    loadingAccounts.value = false;
+    accounts = fetchAccounts;
+    loadingAccounts = false;
   };
 
   onMounted(async () => {
-    await fetchAccount();
+    if (!accounts || accounts.length == 0) {
+      await fetchAccount();
+    }
   });
 </script>

@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-26 21:53:20
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-26 22:13:21
+ * @LastEditTime: 2021-09-12 21:54:31
  */
 import type { AxiosRequestConfig, AxiosInstance, AxiosResponse, AxiosError } from "axios";
 import axios from "axios";
@@ -164,23 +164,23 @@ export class VAxios {
     };
   }
 
-  get<T = any>(config: AxiosRequestConfig, options?: RequestOptions): Promise<T> {
+  get<T = any>(config: AxiosRequestConfig, options?: CreateAxiosOptions): Promise<T> {
     return this.request({ ...config, method: "GET" }, options);
   }
 
-  post<T = any>(config: AxiosRequestConfig, options?: RequestOptions): Promise<T> {
+  post<T = any>(config: AxiosRequestConfig, options?: CreateAxiosOptions): Promise<T> {
     return this.request({ ...config, method: "POST" }, options);
   }
 
-  put<T = any>(config: AxiosRequestConfig, options?: RequestOptions): Promise<T> {
+  put<T = any>(config: AxiosRequestConfig, options?: CreateAxiosOptions): Promise<T> {
     return this.request({ ...config, method: "PUT" }, options);
   }
 
-  delete<T = any>(config: AxiosRequestConfig, options?: RequestOptions): Promise<T> {
+  delete<T = any>(config: AxiosRequestConfig, options?: CreateAxiosOptions): Promise<T> {
     return this.request({ ...config, method: "DELETE" }, options);
   }
 
-  request<T = any>(config: AxiosRequestConfig, options?: RequestOptions): Promise<T> {
+  request<T = any>(config: AxiosRequestConfig, options?: CreateAxiosOptions): Promise<T> {
     let conf: CreateAxiosOptions = cloneDeep(config);
     const transform = this.getTransform();
 

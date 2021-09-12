@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-24 17:24:45
  * @LastEditors: ydfk
- * @LastEditTime: 2021-09-10 20:58:04
+ * @LastEditTime: 2021-09-12 22:46:39
  */
 import { ConfigEnv, defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
@@ -77,7 +77,13 @@ export default ({ mode, command }: ConfigEnv) => {
           target: env.VITE_PROXY_HOST,
           changeOrigin: true,
           secure: false,
-          rewrite: (path) => path.replace("/api/", "/"),
+          rewrite: (path) => path.replace(/^\/api/, ""),
+          configure: (proxy) =>
+            proxy.on("proxyReq", (proxyRes, req, res) => {
+              console.log("🚀 proxyRes", proxyRes);
+              //console.log("🚀 req", req);
+              //console.log("🚀 res", res);
+            }),
         },
       },
     },

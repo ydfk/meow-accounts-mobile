@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-29 19:49:10
  * @LastEditors: ydfk
- * @LastEditTime: 2021-09-09 22:37:04
+ * @LastEditTime: 2021-09-12 22:01:33
 -->
 <template>
   <van-empty description="暂无数据" v-if="accounts.length == 0" />
@@ -17,14 +17,14 @@
 <script lang="ts" setup>
   import { AccountGroupDayModel, AccountModel } from "@/models/account";
   import dayjs from "dayjs";
-  import { computed, PropType } from "vue";
+  import { PropType } from "vue";
   import AccountDay from "@/views/account/AccountDay.vue";
 
   const props = defineProps({
     accounts: { type: Array as PropType<AccountModel[]>, required: true },
   });
 
-  const accountGroupDays = computed<AccountGroupDayModel[]>(() => {
+  let accountGroupDays = $computed<AccountGroupDayModel[]>(() => {
     if (props.accounts && props.accounts.length > 0) {
       const accountGroupDays: AccountGroupDayModel[] = [];
 

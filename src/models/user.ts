@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-28 13:20:32
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-29 17:16:52
+ * @LastEditTime: 2021-09-12 21:39:45
  */
 
 /**
@@ -11,5 +11,5 @@
  */
 export interface TokenModel {
   token: string;
-  tokenExpiration: string;
+  expiration: Date;
 }

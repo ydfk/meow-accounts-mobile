@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-26 21:51:41
  * @LastEditors: ydfk
- * @LastEditTime: 2021-08-29 18:34:19
+ * @LastEditTime: 2021-09-12 21:50:52
  */
 
 import { Result, RequestOptions } from "#/axios";
@@ -109,7 +109,7 @@ const transform: AxiosTransform = {
     const { getToken } = useUserStoreWithOut();
     console.log("🚀 ~ axios getToken", getToken);
     const token = getToken;
-    if (token && (config as Record<string, any>)?.requestOptions?.withToken !== false) {
+    if (token && options?.requestOptions?.withToken !== false) {
       // jwt token
       config.headers.Authorization = options.authenticationScheme ? `${options.authenticationScheme} ${token}` : token;
     }
