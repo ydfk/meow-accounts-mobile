@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-26 22:20:02
  * @LastEditors: ydfk
- * @LastEditTime: 2021-09-12 22:09:18
+ * @LastEditTime: 2021-09-13 19:52:21
  */
 
 import { RouterEnum } from "@/enums/routerEnum";
@@ -58,13 +58,6 @@ export function checkStatus(status: number, msg: string): void {
   }
 
   if (errMessage) {
-    // if (errorMessageMode === "modal") {
-    //   createErrorModal({ title: t("sys.api.errorTip"), content: errMessage });
-    // } else if (errorMessageMode === "message") {
-    //   error({ content: errMessage, key: `global_error_message_status_${status}` });
-    // }
-    // TODO: 引入第三方ui组件后可处理
-
     if (status == 401) {
       Dialog.confirm({
         message: errMessage,

@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-26 21:51:41
  * @LastEditors: ydfk
- * @LastEditTime: 2021-09-12 21:50:52
+ * @LastEditTime: 2021-09-13 20:49:16
  */
 
 import { Result, RequestOptions } from "#/axios";
@@ -107,7 +107,6 @@ const transform: AxiosTransform = {
   requestInterceptors: (config, options) => {
     // 请求之前处理config
     const { getToken } = useUserStoreWithOut();
-    console.log("🚀 ~ axios getToken", getToken);
     const token = getToken;
     if (token && options?.requestOptions?.withToken !== false) {
       // jwt token

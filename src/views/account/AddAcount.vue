@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-31 23:24:40
  * @LastEditors: ydfk
- * @LastEditTime: 2021-09-10 22:51:10
+ * @LastEditTime: 2021-09-13 22:07:19
 -->
 <template>
   <van-cell-group inset>
@@ -12,12 +12,14 @@
       <van-radio :name="1" checked-color="red">支出</van-radio>
       <van-radio :name="0" checked-color="green">收入</van-radio>
     </van-radio-group>
-    <van-field left-icon="label-o" class="mt-5" size="large" clearable v-model="account.category" label="分类" placeholder="分类" />
+    <van-cell icon="todo-list-o" class="mt-5" title="日期" :value="displayDate" @click="showCalendar = true" is-link />
+
     <van-cell icon="completed" center title="是否有收据">
       <template #right-icon>
         <van-switch v-model="account.receipt" size="24" />
       </template>
     </van-cell>
+    <van-field left-icon="label-o" size="large" clearable v-model="account.category" label="分类" placeholder="分类" />
     <van-field
       left-icon="bookmark-o"
       rows="5"
@@ -32,6 +34,7 @@
       placeholder="备注"
     />
   </van-cell-group>
+
   <van-number-keyboard
     :show="true"
     theme="custom"
@@ -44,26 +47,32 @@
     @delete="onDelete"
   >
     <template #title-left>
-      <div class="pl-2 text-xl font-semibold"><van-icon name="bill-o" /> 金额 {{ showAmount }}</div>
+      <div class="pl-2 text-xl font-semibold"><van-icon name="bill-o" /> 金额 {{ displayAmount }}</div>
     </template>
   </van-number-keyboard>
+  <van-calendar round v-model:show="showCalendar" :show-confirm="false" @confirm="onCalendaConfirm" :min-date="minDate" :max-date="nowDate" />
 </template>
 <script lang="ts" setup>
+  import { apiGetAccountById, apiSaveAccount, apiUpdateAccount } from "@/apis/account";
   import { AccountTypeEnum } from "@/enums/accountEnum";
   import { AccountModel } from "@/models/account";
   import { formatMoney } from "@/utils/numberUtil";
+  import dayjs from "dayjs";
   import { Toast } from "vant";
-  import { watchEffect } from "vue-demi";
+  import { watch, watchEffect } from "vue";
 
   const props = defineProps({
     id: { type: String },
   });
 
-  let amountString = $ref("0");
+  const emits = defineEmits(["save:success"]);
+
+  const nowDate = dayjs().set("hour", 0).set("minute", 0).set("second", 0).toDate();
+  const minDate = dayjs(nowDate).add(-1, "year").toDate();
 
   let account = $ref<AccountModel>({
     id: "",
-    date: new Date(),
+    date: nowDate,
     amount: 0,
     category: "",
     remark: "",
@@ -71,16 +80,36 @@
     receipt: false,
   });
 
-  let showAmount = $computed(() => formatMoney(account.amount));
+  let amountString = $ref("0");
+  let displayAmount = $computed(() => formatMoney(account.amount));
+
+  let showCalendar = $ref(false);
+  let displayDate = $computed(() => dayjs(account.date).format("YYYY/MM/DD"));
+
+  watch(
+    () => props.id,
+    async (val, oldVal) => {
+      if (val && val != oldVal) {
+        account = await apiGetAccountById(val);
+        amountString = account.amount.toString();
+      }
+    },
+    {
+      immediate: true,
+    }
+  );
 
   watchEffect(() => {
     if (amountString) {
       account.amount = parseFloat(amountString);
+      if (isNaN(account.amount)) {
+        account.amount = 0;
+      }
     } else {
       account.amount = 0;
     }
 
-    if (account.type == AccountTypeEnum.Expenditure) {
+    if (account.type == AccountTypeEnum.Expenditure && account.amount > 0) {
       account.amount = 0 - account.amount;
     }
   });
@@ -109,7 +138,13 @@
     }
   };
 
-  const onSubmit = () => {
+  const onCalendaConfirm = (value: Date) => {
+    console.log("🚀 ~ file: AddAcount.vue ~ line 135 ~ onCalendaConfirm ~ value", value);
+    account.date = value;
+    showCalendar = false;
+  };
+
+  const onSubmit = async () => {
     console.log("🚀 ~ file: AddAcount.vue ~ line 108 ~ onSubmit ~ account", account);
     if (!account.category) {
       Toast("需要一个分类呀😝");
@@ -131,16 +166,15 @@
           message: msg,
         });
 
-        let second = 3;
-        const timer = setInterval(() => {
-          second--;
-          if (second) {
-          } else {
-            Toast.success("保存成功😆");
-            clearInterval(timer);
-            Toast.clear();
-          }
-        }, 1000);
+        if (account.id) {
+          await apiUpdateAccount(account);
+          emits("save:success");
+          Toast.success("修改成功😆");
+        } else {
+          await apiSaveAccount(account);
+          emits("save:success");
+          Toast.success("保存成功😆");
+        }
       }
     }
   };

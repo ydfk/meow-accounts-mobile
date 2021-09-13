@@ -3,13 +3,13 @@
  * @Author: ydfk
  * @Date: 2021-08-29 19:49:10
  * @LastEditors: ydfk
- * @LastEditTime: 2021-09-12 22:01:33
+ * @LastEditTime: 2021-09-13 20:26:51
 -->
 <template>
   <van-empty description="暂无数据" v-if="accounts.length == 0" />
   <div v-else>
     <div v-for="account in accountGroupDays" :key="account.dateOfDay" class="flex justify-evenly w-full">
-      <AccountDay :accountGroupDay="account" />
+      <AccountDay :accountGroupDay="account" @refresh="onRefresh" />
     </div>
     <span class="flex justify-center m-text-gray mt-2">没有更多数据了</span>
   </div>
@@ -23,6 +23,8 @@
   const props = defineProps({
     accounts: { type: Array as PropType<AccountModel[]>, required: true },
   });
+
+  const emits = defineEmits(["refresh"]);
 
   let accountGroupDays = $computed<AccountGroupDayModel[]>(() => {
     if (props.accounts && props.accounts.length > 0) {
@@ -46,4 +48,6 @@
       return [];
     }
   });
+
+  const onRefresh = () => emits("refresh");
 </script>

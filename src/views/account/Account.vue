@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-28 21:02:14
  * @LastEditors: ydfk
- * @LastEditTime: 2021-09-12 22:03:01
+ * @LastEditTime: 2021-09-13 21:47:09
 -->
 <template>
   <van-sticky position="top">
@@ -36,7 +36,7 @@
   </van-sticky>
 
   <van-pull-refresh v-model="loadingAccounts" @refresh="fetchAccount" class="p-4">
-    <van-skeleton round title avatar :row="15" :loading="loadingAccounts"><AccountMonth :accounts="accounts" /></van-skeleton>
+    <van-skeleton round title avatar :row="15" :loading="loadingAccounts"><AccountMonth :accounts="accounts" @refresh="fetchAccount" /></van-skeleton>
   </van-pull-refresh>
 
   <van-popup v-model:show="showDatePicker" position="bottom" round>
@@ -50,7 +50,7 @@
       @cancel="showDatePicker = false"
   /></van-popup>
   <van-popup v-model:show="showAdd" class="h-full" position="bottom" closeable :close-on-click-overlay="false">
-    <AddAccount />
+    <AddAccount @save:success="onSaveSuccess" />
   </van-popup>
 </template>
 <script lang="ts" setup>
@@ -64,9 +64,10 @@
   import AddAccount from "./AddAcount.vue";
   import { reduceAccountAmount } from "./common";
 
-  let loadingAccounts = $ref(true);
   const minDate = new Date(2010, 0, 1);
   const maxDate = new Date(2050, 11, 1);
+
+  let loadingAccounts = $ref(true);
   let currentDate = $ref(new Date());
   let currentYear = $computed(() => dayjs(currentDate).year());
   let currentMonth = $computed(() => dayjs(currentDate).month() + 1);
@@ -93,7 +94,6 @@
 
   const fetchAccount = async () => {
     loadingAccounts = true;
-
     const fetchAccounts = await apiGetAccountByMonth(currentYear, currentMonth);
     for (const account of fetchAccounts) {
       account.type = account.amount > 0 ? AccountTypeEnum.Income : AccountTypeEnum.Expenditure;
@@ -101,6 +101,11 @@
 
     accounts = fetchAccounts;
     loadingAccounts = false;
+  };
+
+  const onSaveSuccess = async () => {
+    await fetchAccount();
+    showAdd = false;
   };
 
   onMounted(async () => {

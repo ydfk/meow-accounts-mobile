@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-24 17:24:45
  * @LastEditors: ydfk
- * @LastEditTime: 2021-09-13 17:01:39
+ * @LastEditTime: 2021-09-13 19:57:20
  */
 import { ConfigEnv, defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
@@ -28,25 +28,27 @@ export default ({ mode, command }: ConfigEnv) => {
   const env = loadEnv(mode, process.cwd());
   const isBuild = command === "build";
 
-  const mockPlugin =
-    env.VITE_USE_MOCK &&
-    viteMockServe({
-      ignore: /^\_/,
-      mockPath: "mock",
-      localEnabled: command === "serve",
-      prodEnabled: command !== "serve" && isBuild,
-      //  这样可以控制关闭mock的时候不让mock打包到最终代码内
-      injectCode: `
-        import { setupProdMockServer } from '../mock/_createProductionServer';
-        setupProdMockServer();
-      `,
-    });
+  const mockPlugin = () => {
+    if (env.VITE_USE_MOCK != "false") {
+      return viteMockServe({
+        ignore: /^\_/,
+        mockPath: "mock",
+        localEnabled: command === "serve",
+        prodEnabled: command !== "serve" && isBuild,
+        //  这样可以控制关闭mock的时候不让mock打包到最终代码内
+        injectCode: `
+            import { setupProdMockServer } from '../mock/_createProductionServer';
+            setupProdMockServer();
+          `,
+      });
+    }
+  };
 
   return defineConfig({
     plugins: [
       vue({ refTransform: true }),
       WindiCSS(),
-      mockPlugin,
+      mockPlugin(),
       styleImport({
         libs: [
           {
@@ -86,12 +88,6 @@ export default ({ mode, command }: ConfigEnv) => {
           changeOrigin: true,
           secure: false,
           rewrite: (path) => path.replace(/^\/api/, ""),
-          configure: (proxy) =>
-            proxy.on("proxyReq", (proxyRes, req, res) => {
-              console.log("🚀 proxyRes", proxyRes);
-              //console.log("🚀 req", req);
-              //console.log("🚀 res", res);
-            }),
         },
       },
     },
