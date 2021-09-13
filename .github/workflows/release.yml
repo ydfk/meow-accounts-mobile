@@ -22,7 +22,7 @@ jobs:
       - uses: copapow/version-bump-package@v1
         with:
           default_branch: main
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.ADMIN }}
 
       - uses: EndBug/add-and-commit@v7
         with:
