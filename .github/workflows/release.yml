@@ -19,6 +19,15 @@ jobs:
         run: |
           echo "date=$(date "+%Y%m%d%H%M%S")" >> $GITHUB_ENV
 
+      - uses: copapow/version-bump-package@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: EndBug/add-and-commit@v7
+        with:
+          branch: main
+          message: "Bump package version"
+
       - name: Install
         run: npm install
 
@@ -28,12 +37,12 @@ jobs:
       - name: Tar
         run: |
           cd dist
-          tar -zcvf meow-accounts-mobile-${{ env.date }}.tar.gz *
+          tar -zcvf meow-accounts-mobile-${{ steps.bump.outputs.new_version }}.tar.gz *
 
       - name: Release
         uses: ncipollo/release-action@v1
         with:
-          name: meow-accounts-mobile-${{ env.date }}
+          name: ${{ steps.bump.outputs.new_version }}
           tag: ${{ env.date }}
           token: ${{ secrets.REPO_TOKEN }}
-          artifacts: "dist/meow-accounts-mobile-${{ env.date }}.tar.gz"
+          artifacts: "dist/meow-accounts-mobile-${{ steps.bump.outputs.new_version }}.tar.gz"
