@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-24 17:24:45
  * @LastEditors: ydfk
- * @LastEditTime: 2021-09-12 22:46:39
+ * @LastEditTime: 2021-09-13 17:01:39
  */
 import { ConfigEnv, defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
@@ -11,6 +11,14 @@ import { resolve } from "path";
 import { viteMockServe } from "vite-plugin-mock";
 import styleImport from "vite-plugin-style-import";
 import WindiCSS from "vite-plugin-windicss";
+import dayjs from "dayjs";
+import pkg from "./package.json";
+
+const { dependencies, devDependencies, name, version } = pkg;
+const __APP_INFO__ = {
+  pkg: { dependencies, devDependencies, name, version },
+  lastBuildTime: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+};
 
 const pathResolve = (dir: string) => {
   return resolve(process.cwd(), ".", dir);
@@ -103,6 +111,10 @@ export default ({ mode, command }: ConfigEnv) => {
           drop_debugger: true,
         },
       },
+    },
+
+    define: {
+      __APP_INFO__: JSON.stringify(__APP_INFO__),
     },
   });
 };
