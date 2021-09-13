@@ -19,18 +19,14 @@ jobs:
         run: |
           echo "date=$(date "+%Y%m%d%H%M%S")" >> $GITHUB_ENV
 
-      - uses: actions/bump-package@latest
-        with:
-          major-keywords: 'BREAKING'
-          minor-keywords: 'NEW FEAT'
-          patch-keywords: ''
+      - uses: maks-stupak/gh-action-bump-version@v7.1.5
 
       - uses: EndBug/add-and-commit@v7
         with:
           branch: main
           message: "Bump package version"
 
-      - uses: gagle/package-version@v1
+      - uses: gagle/package-version@v1.0.0
         id: package-version
 
       - name: Install
