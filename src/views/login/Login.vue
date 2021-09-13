@@ -3,7 +3,7 @@
  * @Author: ydfk
  * @Date: 2021-08-26 09:16:24
  * @LastEditors: ydfk
- * @LastEditTime: 2021-09-12 21:56:26
+ * @LastEditTime: 2021-09-13 22:36:53
 -->
 <template>
   <div class="h-full p-5 flex flex-col justify-center">
@@ -31,9 +31,11 @@
   import { useRouter } from "vue-router";
 
   const router = useRouter();
-  const { setToken } = useUserStore();
+  const { setToken, signOut } = useUserStore();
   let userName = $ref("");
   let password = $ref("");
+
+  signOut();
 
   const onLogin = async () => {
     Toast.clear();
