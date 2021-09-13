@@ -1,0 +1,39 @@
+name: release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: build-${{matrix.os}}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@master
+
+      - name: Prepare
+        run: |
+          echo "date=$(date "+%Y%m%d%H%M%S")" >> $GITHUB_ENV
+
+      - name: Install
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Tar
+        run: |
+          cd dist
+          tar -zcvf meow-accounts-mobile-${{ env.date }}.tar.gz *
+
+      - name: Release
+        uses: ncipollo/release-action@v1
+        with:
+          name: meow-accounts-mobile-${{ env.date }}
+          tag: ${{ env.date }}
+          token: ${{ secrets.REPO_TOKEN }}
+          artifacts: "dist/meow-accounts-mobile-${{ env.date }}.tar.gz"
