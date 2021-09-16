@@ -41,11 +41,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - run: echo "has-updated -- ${{ steps.version-updated.outputs.has-updated }}"
-      - run: echo "version -- ${{ steps.version-updated.outputs.current-package-version }}"
-      - run: echo "has-updated-str -- ${{ steps.version-updated.outputs.has-updated == true }}"
-      - run: echo "has-updated-str1 -- ${{ steps.version-updated.outputs.has-updated == false }}"
-
       - name: Tar
         if: steps.version-updated.outputs.has-updated
         run: |
