@@ -4,7 +4,12 @@ on:
   push:
   pull_request:
     branches: [main]
-
+  workflow_dispatch:
+    inputs:
+      release:
+        description: "是否发布"
+        required: false
+        default: false
 jobs:
   build:
     name: build-${{matrix.os}}
@@ -42,16 +47,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Tar
-        if: steps.version-updated.outputs.has-updated
+        if: steps.version-updated.outputs.has-updated || github.event.inputs.release
         run: |
           cd dist
           tar -zcvf meow-accounts-mobile-${{ steps.version-updated.outputs.current-package-version }}.tar.gz *
 
       - name: Release
         uses: ncipollo/release-action@v1
-        if: steps.version-updated.outputs.has-updated
+        if: steps.version-updated.outputs.has-updated || github.event.inputs.release
         with:
-          name: ${{ steps.version-updated.outputs.version }}
+          name: ${{ steps.version-updated.outputs.current-package-version }}
           tag: ${{ env.date }}
           token: ${{ secrets.REPO_TOKEN }}
           artifacts: "dist/meow-accounts-mobile-${{ steps.version-updated.outputs.current-package-version }}.tar.gz"

@@ -1,8 +1,4 @@
-# Changelog
-
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
-
-### 1.0.1 (2021-09-16)
+### 1.0.0 (2021-09-10)
 
 ### 新特性
 
@@ -22,5 +18,3 @@ All notable changes to this project will be documented in this file. See [standa
 ### Bug 修复
 
 - **login:** clear localstorage ([929bb08](https://github.com/ydfk/meow-accounts-mobile/commit/929bb080dbf6817d48f74db571ff81546d941b31))
-
-## [1.0.0](https://github.com/ydfk/vue3-starter/compare/v0.0.2...v1.0.0) (2021-08-27)
