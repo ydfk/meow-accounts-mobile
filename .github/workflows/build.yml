@@ -34,24 +34,26 @@ jobs:
           path: dist
 
       - name: CheckVersion
-        uses: MontyD/package-json-updated-action
+        uses: johnnybenson/package-json-versioned-action@v1.0.1
         id: version-updated
         with:
-          path: package.json
-        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+          PACKAGE_JSON_PATH: package.json
+          
+      - run: echo "has-updated -- ${{ steps.version-updated.outputs.has-updated }}"
+      - run: echo "version -- ${{ steps.version-updated.outputs.version }}"
+      
       - name: Tar
         if: steps.version-updated.outputs.has-updated
         run: |
           cd dist
-          tar -zcvf meow-accounts-mobile-${{ steps.version-updated.outputs.current-package-version }}.tar.gz *
+          tar -zcvf meow-accounts-mobile-${{ steps.version-updated.outputs.version }}.tar.gz *
 
       - name: Release
         uses: ncipollo/release-action@v1
         if: steps.version-updated.outputs.has-updated
         with:
-          name: ${{ steps.version-updated.outputs.current-package-version }}
+          name: ${{ steps.version-updated.outputs.version }}
           tag: ${{ env.date }}
           token: ${{ secrets.REPO_TOKEN }}
-          artifacts: "dist/meow-accounts-mobile-${{ steps.version-updated.outputs.current-package-version }}.tar.gz"
+          artifacts: "dist/meow-accounts-mobile-${{ steps.version-updated.outputs.version }}.tar.gz"
