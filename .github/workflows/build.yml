@@ -57,5 +57,5 @@ jobs:
         with:
           name: ${{ steps.version-updated.outputs.version }}
           tag: ${{ env.date }}
-          token: ${{ secrets.REPO_TOKEN }}
+          token: ${{ secrets.ADMIN }}
           artifacts: "dist/meow-accounts-mobile-${{ steps.version-updated.outputs.version }}.tar.gz"
