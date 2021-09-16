@@ -37,8 +37,9 @@ jobs:
         uses: MontyD/package-json-updated-action@1.0.1
         id: version-updated
         with:
+          path: package.json
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PACKAGE_JSON_PATH: package.json
 
       - run: echo "has-updated -- ${{ steps.version-updated.outputs.has-updated }}"
       - run: echo "version -- ${{ steps.version-updated.outputs.current-package-version }}"
