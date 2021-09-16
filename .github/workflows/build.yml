@@ -42,8 +42,8 @@ jobs:
 
       - run: echo "has-updated -- ${{ steps.version-updated.outputs.has-updated }}"
       - run: echo "version -- ${{ steps.version-updated.outputs.version }}"
-      - run: echo "has-updated-str -- ${{ steps.version-updated.outputs.version == "true" }}"
-      - run: echo "has-updated-str1 -- ${{ steps.version-updated.outputs.version == "false" }}"
+      - run: echo "has-updated-str -- ${{ steps.version-updated.outputs.version == 'true' }}"
+      - run: echo "has-updated-str1 -- ${{ steps.version-updated.outputs.version == 'false' }}"
 
       - name: Tar
         if: steps.version-updated.outputs.has-updated
