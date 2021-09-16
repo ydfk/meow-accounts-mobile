@@ -4,14 +4,11 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## 1.0.2 (2021-09-16)
 
-
 ### 🎫 杂项
 
-* 修改commitlint ([72eead8](https://github.com/ydfk/meow-accounts-mobile/commit/72eead8))
+- 修改 commitlint ([72eead8](https://github.com/ydfk/meow-accounts-mobile/commit/72eead8))
 
-
-
-### 1.0.0 (2021-09-10)
+### 1.0.1 (2021-09-10)
 
 ### 新特性
 
