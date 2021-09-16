@@ -1,6 +1,6 @@
 {
   "name": "vue3-starter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": {
     "name": "ydfk",
     "email": "lyh6728326@gmail.com",
@@ -22,7 +22,9 @@
     "cz": "git add . && git cz",
     "prepare": "husky install",
     "reinstall": "rimraf yarn.lock && rimraf package.lock.json && rimraf node_modules && yarn install",
-    "release": "standard-version",
+    "release:major": "standard-version --release-as major",
+    "release:minor": "standard-version --release-as minor",
+    "release:patch": "standard-version --release-as patch",
     "analysis": "windicss-analysis"
   },
   "dependencies": {
