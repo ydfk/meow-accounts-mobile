@@ -1,0 +1,43 @@
+name: delete
+on:
+  workflow_dispatch:
+    inputs:
+      delete-older-workflow:
+        description: "是否删除action"
+        required: false
+        default: "true"
+      delete-older-workflow-retain-days:
+        description: "删除action保留天数"
+        required: false
+        default: 3
+      delete-older-releases:
+        description: "是否删除release"
+        required: false
+        default: "true"
+      delete-older-releases-keep-latest:
+        description: "删除release保留的版本"
+        required: false
+        default: 3
+
+jobs:
+  del_runs:
+    runs-on: Ubuntu-20.04
+    name: delete-workflow-runs
+    steps:
+      - name: 删除action
+        uses: Mattraks/delete-workflow-runs@main
+        if: (github.event.inputs.delete-older-workflow == 'true' && github.event.inputs.delete-older-workflow  != 'false')
+        with:
+          token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          retain_days: ${{github.event.inputs.delete-older-workflow-retain-days}}
+          keep_minimum_runs: 0
+
+      - name: 删除release
+        uses: dev-drprasad/delete-older-releases@master
+        if: (github.event.inputs.delete-older-releases == 'true' && github.event.inputs.delete-older-releases  != 'false')
+        with:
+          keep_latest: ${{github.event.inputs.delete-older-releases-keep-latest}}
+          delete_tags: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
